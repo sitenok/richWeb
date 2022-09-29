@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Note App</title>
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+    	div {
+            padding: 10px;
+            background-color: #f6f6f6;
+            overflow: hidden;
+        }
+    	input[type=text], textarea, select {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        input[type=button]{ 
+            width: auto;
+            float: right;
+            cursor: pointer;
+            padding: 7px;
+        }
+    </style>
+</head>
+<body>
+    <div>
+
+        <div>
+            <textarea id="nt" name="nt" placeholder="Write a note..." style="height:100px"></textarea>
+        </div>
+
+        <!--Button to save the data-->
+        <div>
+            <input type="button" id="bt" value="Save data to file" onclick="saveFile()" />
+        </div>
+
+    </div>
+
+</body>
+
+<script>
+    let saveFile = () => {
+    	
+        // Get the data from the form
+        const nt = document.getElementById('nt');
+        
+        // store the data
+        let data = 
+            '\r Your Note: ' + nt.value + ' \r\n ';
+        
+        // Convert the text to BLOB.
+        const textToBLOB = new Blob([data], { type: 'text/plain' });
+        const sFileName = 'formData.txt';	   // The file to save the data.
+
+        let newLink = document.createElement("a");
+        newLink.download = sFileName;
+
+        if (window.webkitURL != null) {
+            newLink.href = window.webkitURL.createObjectURL(textToBLOB);
+        }
+        else {
+            newLink.href = window.URL.createObjectURL(textToBLOB);
+            newLink.style.display = "none";
+            document.body.appendChild(newLink);
+        }
+
+        newLink.click(); 
+    }
+</script>
+</html>

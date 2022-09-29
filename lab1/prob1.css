@@ -1,0 +1,24 @@
+.grid {
+    display: grid;
+    flex-wrap: wrap;
+    border: 1px solid #000;
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: 1fr;
+    
+}
+
+@media screen and (max-width: 720px) {
+  .test .test__col {
+    flex:0 0 50%;
+  }
+}
+
+@media screen and (max-width: 360px) {
+  .test .test__col {
+    flex:0 0 100%;
+  }
+}
+
+div.box { 
+    margin: 10px 5px 10px 5px; 
+}
