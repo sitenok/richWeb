@@ -2,6 +2,47 @@
 <html>
 <head>
     <title>Note App</title>
+    <script>
+        let saveFile = () => {
+            
+            // Get the data from the form
+            const nt = document.getElementById('nt');
+            
+            // store the data
+            let data = 
+                ' Your Note: \r\r' + nt.value + ' \r\n ';
+            
+            // Convert the text to BLOB
+            const textToBLOB = new Blob([data], { type: 'text/plain' });
+            const sFileName = 'note.txt';	   // The file to save the data.
+
+            let newLink = document.createElement("a");
+            newLink.download = sFileName;
+
+            if (window.webkitURL != null) {
+                newLink.href = window.webkitURL.createObjectURL(textToBLOB);
+            }
+            else {
+                newLink.href = window.URL.createObjectURL(textToBLOB);
+                newLink.style.display = "none";
+                document.body.appendChild(newLink);
+            }
+
+            newLink.click(); 
+        }
+
+        let editFile = () => {
+
+
+        }
+
+        function colourChange(red){
+            document.body.style.backgroundColor= "red";
+            notebox.style.backgroundColor = colors[red];
+
+        }
+    </script>
+
     <style>
         * {
             box-sizing: border-box;
@@ -17,12 +58,45 @@
             border: 1px solid #ccc;
             border-radius: 4px;
         }
-        input[type=button]{ 
+
+        .saveButton{ 
             width: auto;
             float: right;
             cursor: pointer;
             padding: 7px;
         }
+
+        .notebox{
+            padding: 20px;
+            background-color: greenyellow;
+            padding: 30px 30px;
+        }
+
+        .column {
+        float: left;
+        width: auto;
+        padding: 5px;
+        }
+
+        /* Clear floats after image containers */
+        .row::after {
+        content: "";
+        clear: both;
+        display: table;
+        }
+
+        .cbutton {
+        color: white;
+        padding: 32px 50px;
+        margin-right: 50px;
+        }
+
+        .button2 {background-color: red;}
+        .button3 {background-color: orange;} 
+        .button4 {background-color: yellow;} 
+        .button5 {background-color: green;}
+        .button6 {background-color: blue;} 
+
     </style>
 </head>
 <body>
@@ -34,40 +108,115 @@
 
         <!--Button to save the data-->
         <div>
-            <input type="button" id="bt" value="Save data to file" onclick="saveFile()" />
+            <input type="button" class= "saveButton" id="bt" value="Save note to file" onclick="saveFile()" />
         </div>
 
     </div>
 
+    <div class="row" style="margin-bottom: 50px;" >
+        <h2> Choose a note colour: </h2>
+        
+        <div class="column">
+           <input type="button" class="cbutton button2" onclick="colourChange(red)" /> 
+        </div>
+        <div class="column">
+           <input type="button" class="cbutton button3" onclick="colourChange(orange)" /> 
+        </div>
+        <div class="column">
+           <input type="button" class="cbutton button4" onclick="colourChange(yellow)" /> 
+        </div>
+        <div class="column">
+           <input type="button" class="cbutton button5" onclick="colourChange(green)" /> 
+        </div>
+        <div class="column">
+           <input type="button" class="cbutton button6" onclick="colourChange(blue)" /> 
+        </div>
+
+    </div>
+
+    <!-- A row of notes created by user -->
+    <div class="row" style="margin: 20px; padding:40px;">
+        <div class="column">
+            <div>
+                <object data="note1.txt" class="notebox">
+                No note yet
+                </object>
+
+                <!--Button to edit note-->
+                <div>
+                    <input type="button" id="edit" value="Edit note" onclick="editFile()" />
+                </div>
+            </div>
+        </div>
+
+        <div class="column">
+            <div>
+                <object data="note1.txt" class="notebox">
+                No note yet
+                </object>
+
+                <!--Button to edit note-->
+                <div>
+                    <input type="button" id="edit" value="Edit note" onclick="editFile()" />
+                </div>
+            </div>
+        </div>
+
+        <div class="column">
+            <div>
+                <object data="note1.txt" class="notebox">
+                No note yet
+                </object>
+
+                <!--Button to edit note-->
+                <div>
+                    <input type="button" id="edit" value="Edit note" onclick="editFile()" />
+                </div>
+            </div>
+        </div>
+
+        <div class="column">
+            <div>
+                <object data="note1.txt" class="notebox">
+                No note yet
+                </object>
+
+                <!--Button to edit note-->
+                <div>
+                    <input type="button" id="edit" value="Edit note" onclick="editFile()" />
+                </div>
+            </div>
+        </div>
+
+        <div class="column">
+            <div>
+                <object data="note1.txt" class="notebox">
+                No note yet
+                </object>
+
+                <!--Button to edit note-->
+                <div>
+                    <input type="button" id="edit" value="Edit note" onclick="editFile()" />
+                </div>
+            </div>
+        </div>
+
+        <div class="column">
+            <div>
+                <object data="note1.txt" class="notebox">
+                No note yet
+                </object>
+
+                <!--Button to edit note-->
+                <div>
+                    <input type="button" id="edit" value="Edit note" onclick="editFile()" />
+                </div>
+            </div>
+        </div>
+
+    </div> 
+
+
 </body>
 
-<script>
-    let saveFile = () => {
-    	
-        // Get the data from the form
-        const nt = document.getElementById('nt');
-        
-        // store the data
-        let data = 
-            '\r Your Note: ' + nt.value + ' \r\n ';
-        
-        // Convert the text to BLOB.
-        const textToBLOB = new Blob([data], { type: 'text/plain' });
-        const sFileName = 'formData.txt';	   // The file to save the data.
-
-        let newLink = document.createElement("a");
-        newLink.download = sFileName;
-
-        if (window.webkitURL != null) {
-            newLink.href = window.webkitURL.createObjectURL(textToBLOB);
-        }
-        else {
-            newLink.href = window.URL.createObjectURL(textToBLOB);
-            newLink.style.display = "none";
-            document.body.appendChild(newLink);
-        }
-
-        newLink.click(); 
-    }
-</script>
 </html>
