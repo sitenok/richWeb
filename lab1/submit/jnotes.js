@@ -1,4 +1,3 @@
-
 // reference to main application container
 const notesContainer = document.getElementById("app"); // div "app" in html
 const addNoteButton = notesContainer.querySelector(".add-note"); // button to add new note
@@ -50,6 +49,7 @@ function createNoteElement(id, content) {
 // Add new note to HTML & save to local storage
 function addNote() {
   const notes = getNotes();
+  // create new object + id
   const noteObject = {
     id: Math.floor(Math.random() * 100000),
     content: ""
@@ -58,6 +58,7 @@ function addNote() {
   const noteElement = createNoteElement(noteObject.id, noteObject.content);
   notesContainer.insertBefore(noteElement, addNoteButton);
 
+  // append new note to array of notes
   notes.push(noteObject);
   saveNotes(notes);
 }
@@ -65,7 +66,8 @@ function addNote() {
 
 function updateNote(id, newContent) {
   const notes = getNotes();
-  const targetNote = notes.filter((note) => note.id == id)[0];
+  // filter through array & find note with id to update
+  const targetNote = notes.filter((note) => note.id == id)[0]; // array of single element
 
   targetNote.content = newContent;
   saveNotes(notes);
@@ -73,6 +75,7 @@ function updateNote(id, newContent) {
 
 // id + html element which represent specific note
 function deleteNote(id, element) {
+  // filter + make a new array w all the notes not equal to id
   const notes = getNotes().filter((note) => note.id != id);
 
   saveNotes(notes);
