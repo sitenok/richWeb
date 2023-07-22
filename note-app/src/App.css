@@ -1,4 +1,6 @@
+/* Style sheet for the whole screen  */
 body {
+  background: #CCCCFF;
   background-repeat: no-repeat;
   background-size: cover;
   font-family: "fantasy";
@@ -17,7 +19,7 @@ body {
   margin: 10px 0px;
 }
 .notes__title {
-  color: #fff;
+  color: #72b59a;
   font-size: 38px;
   font-family: "fantasy";
   font-weight: 400;
@@ -27,15 +29,15 @@ body {
   margin: 0 auto;
   display: grid;
   grid-gap: 1rem;
-  grid-template-columns: repeat(3, minmax(300px, 1fr)); /*responsive three column grid of notes*/
+  grid-template-columns: repeat(3, minmax(300px, 1fr)); /*responsive 3 column grid of notes*/
 }
 @media screen and (max-width: 900px) {
   .notes {
-      grid-template-columns: repeat(2, minmax(300px, 1fr));
+      grid-template-columns: repeat(2, minmax(300px, 1fr)); /* if screen smaller, 2 note column */
   }
 }
 @media screen and (max-width: 500px) {
   .notes {
-      grid-template-columns: repeat(1, minmax(300px, 1fr));
+      grid-template-columns: repeat(1, minmax(300px, 1fr)); /* if screen smaller, 1 note column */
   }
 }
