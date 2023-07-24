@@ -1,5 +1,5 @@
 // Functions and states of notes
-import React, {useState, useEffect } from "react";
+import {useState, useEffect } from "react";
 import "./Note.css";
 import Note from "./Note.js";
 import CreateNote from "./CreateNote";
@@ -24,7 +24,7 @@ function Notes() {
       {
         id: uuid(),
         text: inputText,
-      },
+      }
     ]);
     //clear textarea
     setInputText("");
@@ -36,19 +36,20 @@ function Notes() {
     setNotes(filteredNotes);
   };
 
-  // save note to local browser storage
-  //stringify = convert objects to a string
-  useEffect(() => {
-    localStorage.setItem("Notes", JSON.stringify(notes));
-  }, [notes]);
-
   //get the saved notes and add them to the array
+  // useEffect - component functions after render
   useEffect(() => {
     const data = JSON.parse(localStorage.getItem("Notes"));
     if (data) {
       setNotes(data);
     }
-  }, []); // empty - get data once
+  }, []); //empty - get notes once
+
+  // save note to local browser storage
+  //stringify = convert objects to a string
+  useEffect(() => {
+    localStorage.setItem("Notes", JSON.stringify(notes));
+  }, [notes]);
 
   return (
     <div className="notes">
