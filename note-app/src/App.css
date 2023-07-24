@@ -3,7 +3,7 @@ body {
   background: #CCCCFF;
   background-repeat: no-repeat;
   background-size: cover;
-  font-family: "fantasy";
+  font-family:  gill sans, sans-serif;
 }
 .main {
   max-width: 960px;
@@ -19,9 +19,9 @@ body {
   margin: 10px 0px;
 }
 .notes__title {
-  color: #72b59a;
+  color: #328362;
   font-size: 38px;
-  font-family: "fantasy";
+  font-family: gill sans, sans-serif;
   font-weight: 400;
 }
 .notes {
