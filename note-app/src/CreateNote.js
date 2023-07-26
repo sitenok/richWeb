@@ -1,5 +1,6 @@
 // Form to create new note
 import React from "react";
+// import Calendar from "./Deadline.js";
 
 //props from NoteState.js
 function CreateNote({ textHandler, saveHandler, inputText }) {
@@ -14,7 +15,7 @@ function CreateNote({ textHandler, saveHandler, inputText }) {
         maxLength="150"
       ></textarea>
       <div className="note__footer">
-        <span className="label"> </span>
+        <span className="label"><input type="date" id="deadline"></input></span>
         <button className="note__save" onClick={saveHandler}>Save</button>
       </div>
     </div>
