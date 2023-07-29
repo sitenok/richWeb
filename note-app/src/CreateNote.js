@@ -3,7 +3,7 @@ import React from "react";
 // import Calendar from "./Deadline.js";
 
 //props from NoteState.js
-function CreateNote({ textHandler, saveHandler, inputText }) {
+function CreateNote({ textHandler, dateHandler, saveHandler, inputText, selectedDate }) {
   return (
     <div className="note" style={{ background: "rgba(255, 255, 255, 0)" }}>
       <textarea
@@ -15,7 +15,13 @@ function CreateNote({ textHandler, saveHandler, inputText }) {
         maxLength="150"
       ></textarea>
       <div className="note__footer">
-        <span className="label"><input type="date" id="deadline"></input></span>
+      <span className="label">
+          <input
+            type="date"
+            value={selectedDate}
+            onChange={dateHandler}
+          />
+        </span>
         <button className="note__save" onClick={saveHandler}>Save</button>
       </div>
     </div>
