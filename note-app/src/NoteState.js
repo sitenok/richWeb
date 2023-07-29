@@ -8,31 +8,24 @@ function Notes() {
   const [notes, setNotes] = useState([]); // store notes as an array
   const [inputText, setInputText] = useState(""); //store the input text
   const [currentNoteId, setCurrentNoteId] = useState(null); // track the current main note id for adding sub-notes
-  const [selectedDate, setSelectedDate] = useState(""); // track the selected date
 
   const textHandler = (e) => {
     setInputText(e.target.value);
   };
 
-  const dateHandler = (e) => {
-    setSelectedDate(e.target.value);
-  };
-
   const saveHandler = () => {
-    if (inputText.trim() !== "" && selectedDate.trim() !== "") {
+    if (inputText.trim() !== "") {
       // If inputText is not empty, it's a main note
       setNotes((prevState) => [
         ...prevState,
         {
           id: uuid(),
           text: inputText,
-          date: selectedDate,
           subNotes: [], // Initialize subNotes as an empty array
         },
       ]);
-      // Clear textarea and date
+      // Clear textarea
       setInputText("");
-      setSelectedDate("");
     } else {
       // If inputText is empty, it's a sub-note
       // We need to find the main note to which this sub-note belongs
@@ -97,10 +90,8 @@ function Notes() {
 
       <CreateNote
         textHandler={textHandler}
-        dateHandler={dateHandler}
         saveHandler={saveHandler}
         inputText={inputText}
-        selectedDate={selectedDate}
       />
     </div>
   );

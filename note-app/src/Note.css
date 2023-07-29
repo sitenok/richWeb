@@ -13,10 +13,7 @@
     word-wrap: break-word;
     font-family:  gill sans, sans-serif;
 }
-.note:hover {
-    background: rgba(0, 0, 0, 0.2);
-    transition: background 0.8s;
-}
+
 .note__footer {
     display: flex;
     align-items: center;
@@ -54,12 +51,27 @@
     background: #328362;
     border: 1.5px solid #328362;
     color: #4b1589;
-    /* transition: background 0.2s; */
-    
 }
 .note__delete {
     cursor: pointer;
 }
 .note__delete:hover {
     transform: scale(1.1);
+}
+.addsub {
+    background: transparent;
+    transition: 0.1s ease-in-out;
+    border: 1.5px solid #328362;
+    border-radius: 10px;
+    margin: 5px;
+    color: #328362;
+    padding: 4px 10px;
+    font-size: 13px;
+    cursor: pointer;
+    font-family:  gill sans, sans-serif;
+}
+.addsub:hover {
+    background: #328362;
+    border: 1.5px solid #328362;
+    color: #4b1589;
 }

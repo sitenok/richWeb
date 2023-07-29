@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import RemoveCircleIcon from '@mui/icons-material/RemoveCircle';
 import { v4 as uuid } from "uuid";
 
-function Note({ id, text, date, subNotes, deleteNote, updateNote }) {
+function Note({ id, text, subNotes, deleteNote, updateNote }) {
   const [subNoteInput, setSubNoteInput] = useState("");
 
   const handleSubNoteChange = (event) => {
@@ -12,8 +12,8 @@ function Note({ id, text, date, subNotes, deleteNote, updateNote }) {
   const handleAddSubNote = () => {
     if (subNoteInput.trim() !== "") {
       updateNote({
-        id: id, 
-        text: text,
+        id: id, // <-- Define 'id' here
+        text: text, // <-- Define 'text' here
         subNotes: [
           ...subNotes,
           { id: uuid(), text: subNoteInput }
@@ -26,8 +26,8 @@ function Note({ id, text, date, subNotes, deleteNote, updateNote }) {
   const deleteSubNote = (subNoteId) => {
     const updatedSubNotes = subNotes.filter((subNote) => subNote.id !== subNoteId);
     updateNote({
-      id: id, 
-      text: text, 
+      id: id, // <-- Define 'id' here
+      text: text, // <-- Define 'text' here
       subNotes: updatedSubNotes
     });
   };
@@ -62,7 +62,7 @@ function Note({ id, text, date, subNotes, deleteNote, updateNote }) {
           onChange={handleSubNoteChange}
           maxLength="150"
         />
-        <button onClick={handleAddSubNote}>Add Sub-Note</button>
+        <button onClick={handleAddSubNote} className="addsub">Add Child Note</button>
         <RemoveCircleIcon
           className="note__delete"
           onClick={() => deleteNote(id)}
