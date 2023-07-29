@@ -5,42 +5,56 @@ import CreateNote from "./CreateNote";
 import { v4 as uuid } from "uuid";
 
 function Notes() {
-  const [notes, setNotes] = useState([]); // store notes as an array
-  const [inputText, setInputText] = useState(""); //store the input text
-  const [currentNoteId, setCurrentNoteId] = useState(null); // track the current main note id for adding sub-notes
+  const [notes, setNotes] = useState([]);
+  const [inputText, setInputText] = useState("");
+  const [selectedDate, setSelectedDate] = useState("");
+  const [selectedNoteId, setSelectedNoteId] = useState(null);
 
   const textHandler = (e) => {
     setInputText(e.target.value);
   };
 
+  const dateHandler = (e) => {
+    setSelectedDate(e.target.value);
+  };
+
   const saveHandler = () => {
-    if (inputText.trim() !== "") {
-      // If inputText is not empty, it's a main note
-      setNotes((prevState) => [
-        ...prevState,
-        {
-          id: uuid(),
-          text: inputText,
-          subNotes: [], // Initialize subNotes as an empty array
-        },
-      ]);
-      // Clear textarea
+    if (inputText.trim() !== "" && selectedDate.trim() !== "") {
+      if (selectedNoteId) {
+        // If selectedNoteId is present, it's a sub-note
+        const updatedNotes = notes.map((note) => {
+          if (note.id === selectedNoteId) {
+            return {
+              ...note,
+              subNotes: [
+                ...(note.subNotes || []),
+                {
+                  id: uuid(),
+                  text: inputText,
+                },
+              ],
+            };
+          }
+          return note;
+        });
+        setNotes(updatedNotes);
+      } else {
+        // If selectedNoteId is not present, it's a main note
+        setNotes((prevNotes) => [
+          ...prevNotes,
+          {
+            id: uuid(),
+            text: inputText,
+            date: selectedDate,
+            subNotes: [],
+          },
+        ]);
+      }
+
+      // Clear textarea and date input
       setInputText("");
-    } else {
-      // If inputText is empty, it's a sub-note
-      // We need to find the main note to which this sub-note belongs
-      const updatedNotes = notes.map((note) => {
-        if (note.id === currentNoteId) {
-          return {
-            ...note,
-            subNotes: [...note.subNotes, { id: uuid(), text: inputText }],
-          };
-        }
-        return note;
-      });
-      setNotes(updatedNotes);
-      // Clear textarea
-      setInputText("");
+      setSelectedDate("");
+      setSelectedNoteId(null);
     }
   };
 
@@ -59,8 +73,21 @@ function Notes() {
     setNotes(updatedNotes);
   };
 
+  const deleteSubNote = (noteId, subNoteId) => {
+    const updatedNotes = notes.map((note) => {
+      if (note.id === noteId) {
+        const updatedSubNotes = note.subNotes.filter((subNote) => subNote.id !== subNoteId);
+        return { ...note, subNotes: updatedSubNotes };
+      }
+      return note;
+    });
+    setNotes(updatedNotes);
+  };
+
   const handleAddSubNote = (noteId) => {
-    setCurrentNoteId(noteId);
+    setSelectedDate("");
+    setInputText("");
+    setSelectedNoteId(noteId);
   };
 
   useEffect(() => {
@@ -81,17 +108,21 @@ function Notes() {
           key={note.id}
           id={note.id}
           text={note.text}
-          subNotes={note.subNotes || []} // Ensure subNotes is an array
+          date={note.date}
+          subNotes={note.subNotes || []}
           deleteNote={deleteNote}
           updateNote={updateNote}
+          deleteSubNote={deleteSubNote}
           handleAddSubNote={handleAddSubNote}
         />
       ))}
 
       <CreateNote
         textHandler={textHandler}
+        dateHandler={dateHandler}
         saveHandler={saveHandler}
         inputText={inputText}
+        selectedDate={selectedDate}
       />
     </div>
   );

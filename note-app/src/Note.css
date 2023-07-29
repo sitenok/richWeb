@@ -58,7 +58,7 @@
 .note__delete:hover {
     transform: scale(1.1);
 }
-.addsub {
+.note__add-sub-note {
     background: transparent;
     transition: 0.1s ease-in-out;
     border: 1.5px solid #328362;
@@ -70,7 +70,7 @@
     cursor: pointer;
     font-family:  gill sans, sans-serif;
 }
-.addsub:hover {
+.note__add-sub-note:hover {
     background: #328362;
     border: 1.5px solid #328362;
     color: #4b1589;

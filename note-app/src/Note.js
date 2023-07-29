@@ -1,43 +1,50 @@
 import React, { useState } from "react";
-import RemoveCircleIcon from '@mui/icons-material/RemoveCircle';
+import RemoveCircleIcon from "@mui/icons-material/RemoveCircle";
+import DeleteSweepRoundedIcon from '@mui/icons-material/DeleteSweepRounded';
 import { v4 as uuid } from "uuid";
 
-function Note({ id, text, subNotes, deleteNote, updateNote }) {
-  const [subNoteInput, setSubNoteInput] = useState("");
 
-  const handleSubNoteChange = (event) => {
-    setSubNoteInput(event.target.value);
+function Note({ id, text, date, subNotes, deleteNote, updateNote, handleAddSubNote }) {
+  const formatDate = (dateString) => {
+    const options = { year: "numeric", month: "long", day: "numeric" };
+    return new Date(dateString).toLocaleDateString(undefined, options);
   };
 
-  const handleAddSubNote = () => {
-    if (subNoteInput.trim() !== "") {
-      updateNote({
-        id: id, // <-- Define 'id' here
-        text: text, // <-- Define 'text' here
-        subNotes: [
-          ...subNotes,
-          { id: uuid(), text: subNoteInput }
-        ]
-      });
-      setSubNoteInput("");
-    }
-  };
+  const [subNoteText, setSubNoteText] = useState(""); // handle sub-note text input
 
   const deleteSubNote = (subNoteId) => {
     const updatedSubNotes = subNotes.filter((subNote) => subNote.id !== subNoteId);
     updateNote({
-      id: id, // <-- Define 'id' here
-      text: text, // <-- Define 'text' here
-      subNotes: updatedSubNotes
+      id,
+      text,
+      date,
+      subNotes: updatedSubNotes,
     });
+  };
+
+  const saveSubNoteHandler = () => {
+    if (subNoteText.trim() !== "") {
+      updateNote({
+        id,
+        text,
+        date,
+        subNotes: [
+          ...subNotes,
+          {
+            id: uuid(),
+            text: subNoteText,
+          },
+        ],
+      });
+      setSubNoteText("");
+    }
   };
 
   return (
     <div className="note">
-      {/* Main note body */}
+      <div className="note__date">{formatDate(date)}</div>
       <div className="note__body">{text}</div>
 
-      {/* Sub-notes */}
       {subNotes && subNotes.length > 0 && (
         <div className="sub-notes">
           {subNotes.map((subNote) => (
@@ -47,27 +54,27 @@ function Note({ id, text, subNotes, deleteNote, updateNote }) {
                 className="sub-note__delete"
                 onClick={() => deleteSubNote(subNote.id)}
                 aria-hidden="true"
-              ></RemoveCircleIcon>
+              />
             </div>
           ))}
         </div>
       )}
 
-      {/* Note footer */}
-      <div className="note__footer">
-        <input
-          type="text"
-          value={subNoteInput}
-          placeholder="Enter sub-note..."
-          onChange={handleSubNoteChange}
-          maxLength="150"
-        />
-        <button onClick={handleAddSubNote} className="addsub">Add Child Note</button>
-        <RemoveCircleIcon
-          className="note__delete"
-          onClick={() => deleteNote(id)}
-          aria-hidden="true"
-        ></RemoveCircleIcon>
+      <div className="note__footer" style={{ justifyContent: "flex-end" }}>
+      <div className="sub-note__input">
+          <input
+            type="text"
+            placeholder="Enter child note..."
+            value={subNoteText}
+            onChange={(e) => setSubNoteText(e.target.value)}
+          />
+          <button className="note__add-sub-note" onClick={saveSubNoteHandler}>
+            Add child note
+          </button>
+        </div>
+        
+        <DeleteSweepRoundedIcon className="note__delete" onClick={() => deleteNote(id)} aria-hidden="true" />
+        
       </div>
     </div>
   );
