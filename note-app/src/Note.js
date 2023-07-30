@@ -56,7 +56,7 @@ function Note({ id, text, date, subNotes, deleteNote, updateNote, notecolour,sel
             <div key={subNote.id} className="sub-note">
               {subNote.text}
               <RemoveCircleIcon
-                className="sub-note__delete"
+                className="note__delete"
                 onClick={() => deleteSubNote(subNote.id)}
                 aria-hidden="true"
               />

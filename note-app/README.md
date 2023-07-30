@@ -1,6 +1,16 @@
-# Getting Started with Create React App
+# RWAT 4 - ReactJS
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+A note taking app which has the following requirements:
+
+Converted notes application to use a react application, where a user should be able to:
+1. Add a note
+2. Delete a note
+3. Each note should be in a colored rectangular box. Box
+colors can be selected from a fixed list of colors.
+
+Also:
+4. Provides child notes, which are deleted when the parent is deleted.
+5. Deadline feature – order notes by deadline and mark overdue. Push back parent deadline if a child note is created with a later deadline.
 
 ## Available Scripts
 
@@ -8,63 +18,64 @@ In the project directory, you can run:
 
 ### `npm start`
 
-Runs the app in the development mode.\
+Runs the app in the development mode.
 Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+## More information  
 
-### `npm test`
+- App displays 3 notes in a row on full screen, a smaller screen would create rows of 2 and rows of 1 notes.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+- The date is displayed oh the top of each note, with the text underneath. The child notes can be added under the main text area and removed by pressing the minus button to the right. 
 
-### `npm run build`
+- The whole note (parent and child if any) can be deleted by pressing the bin icon on the far right.
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+- The user can select a colour for each notes from the following selection: "default" (a transparent note), "lightcoral", "skyblue", "mediumaquamarine", "lightyellow".
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+- The notes and their add-ons will be saved in local browser storage. 
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+- On refresh, notes are sorted in order of date. If the date has passed, they are pushed to the top.
 
-### `npm run eject`
+- To save a note or child note, the fields cannot be blank.
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+- To create a note: Enter text where prompted, select a date on the calendar pop-up and press save. 
+This is to unsure no empty notes are saved, without a date.
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+The main files: 
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+## Note.js
+The component renders the main note with text, date and any existing child notes if any.
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+This component uses the `useState` hook to manage the state of the `subNoteText` which has the text input for child notes
+`formatDate` function = date string into human readable format
+`deleteSubNote` function = deletes a child from the list of child notes
+`saveSubNoteHandler` function = add a new child to list of child notes when the "Add child note" button pressed
+DeleteSweepRoundedIcon = delete the whole note, and the RemoveCircleIcon = delete individual child notes; these icons are from MUI icons
 
-## Learn More
+## NoteState.js
+Manages a list of notes and their subnotes. It also includes functionalities to create, update, and delete notes and subnotes(child notes).
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+`Notes()` = manages the state of notes, inputText, selectedDate, and selectedNoteId using the useState hook
+The component provides functions like deleteNote, updateNote, and deleteSubNote to handle deletion and updating of notes and child notes
+Renders the list of Note components, passing props for each note
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+`textHandler` and `dateHandler` functions = update the input text and selected date state when the user interacts with the input fields
+`saveHandler` function = saves a new note or subnote if a `selectedNoteId` is present. Clears the input fields and resets selectedNoteId
+`handleAddSubNote` function = add a sub-note to a specific note, sets the selectedNoteId state accordingly
+Two `useEffect` hooks = for loading data from and saving data to the local storage, notes are sorted based on the date
+Renders a `CreateNote` component = create new notes and child notes
 
-### Code Splitting
+## CreateNote.js
+Interface for creating new notes.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+`CreateNote()` component receives several props as parameters: `textHandler`, `dateHandler`, `saveHandler`, `inputText` and `selectedDate`. Managing the state and useractions when creating a new note
 
-### Analyzing the Bundle Size
+Renders a <div> element with class "note." which makes the background of the note transparen, using background variable
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+Inside <div>, the <textarea> element allows entering the text of the note. Its controlled by the `inputText` state its value is set to the value of inputText and then calls the `textHandler` function whenever the user types
 
-### Making a Progressive Web App
+Below <textarea>, a <div> element with class "note__footer" has inputs for selecting the date and the "Save" button
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+In "note__footer" <div>, <span> element contains an <input> element of type "date" for selecting a date. `selectedDate` state controls this, and the `dateHandler` function is called when the user changes selected date
 
-### Advanced Configuration
+"Save" button when clicked triggers the ``saveHandler function, which is responsible for saving the new note
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)

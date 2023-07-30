@@ -5,13 +5,13 @@ import CreateNote from "./CreateNote";
 import { v4 as uuid } from "uuid";
 
 function Notes() { 
-  const colours = ["default", "red", "blue", "green", "yellow"];
+  const colours = ["default", "lightcoral", "skyblue", "mediumaquamarine", "lightyellow"];
 
   const [notes, setNotes] = useState([]);
   const [inputText, setInputText] = useState("");
   const [selectedDate, setSelectedDate] = useState("");
   const [selectedNoteId, setSelectedNoteId] = useState(null);
-  const [selectedcolour, setSelectedcolour] = useState(colours[0]);
+  const [selectedcolour] = useState(colours[0]);
 
   const textHandler = (e) => {
     setInputText(e.target.value);
@@ -105,7 +105,7 @@ function Notes() {
     if (data) {
       // Sort the notes based on the date
       const currentDate = new Date();
-      const sortedNotes = data.sort((a, b) => {
+      const sortedNotes = data.sort((b, a) => {
         const aDate = new Date(a.date);
         const bDate = new Date(b.date);
   
