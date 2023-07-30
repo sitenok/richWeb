@@ -4,11 +4,14 @@ import Note from "./Note.js";
 import CreateNote from "./CreateNote";
 import { v4 as uuid } from "uuid";
 
-function Notes() {
+function Notes() { 
+  const colours = ["default", "red", "blue", "green", "yellow"];
+
   const [notes, setNotes] = useState([]);
   const [inputText, setInputText] = useState("");
   const [selectedDate, setSelectedDate] = useState("");
   const [selectedNoteId, setSelectedNoteId] = useState(null);
+  const [selectedcolour, setSelectedcolour] = useState(colours[0]);
 
   const textHandler = (e) => {
     setInputText(e.target.value);
@@ -90,12 +93,35 @@ function Notes() {
     setSelectedNoteId(noteId);
   };
 
+  const colourChangeHandler = (noteId, colour) => {
+    const updatedNotes = notes.map((note) =>
+      note.id === noteId ? { ...note, notecolour: colour } : note
+    );
+    setNotes(updatedNotes);
+  };
+
   useEffect(() => {
     const data = JSON.parse(localStorage.getItem("Notes"));
     if (data) {
-      setNotes(data);
+      // Sort the notes based on the date
+      const currentDate = new Date();
+      const sortedNotes = data.sort((a, b) => {
+        const aDate = new Date(a.date);
+        const bDate = new Date(b.date);
+  
+        // Sort notes with dates in the past in ascending order (oldest date comes first)
+        if (aDate < currentDate && bDate < currentDate) {
+          return aDate - bDate;
+        }
+  
+        // For notes with dates in the future or the current date, sort in descending order (latest date comes first)
+        return bDate - aDate;
+      });
+  
+      setNotes(sortedNotes);
     }
   }, []);
+  
 
   useEffect(() => {
     localStorage.setItem("Notes", JSON.stringify(notes));
@@ -114,6 +140,11 @@ function Notes() {
           updateNote={updateNote}
           deleteSubNote={deleteSubNote}
           handleAddSubNote={handleAddSubNote}
+          // colourChangeHandler={colourChangeHandler}
+          notecolour={note.notecolour || colours[0]} // default colour if not set
+          selectedcolour={selectedcolour}
+          colours={colours}
+          oncolourChange={colourChangeHandler}
         />
       ))}
 

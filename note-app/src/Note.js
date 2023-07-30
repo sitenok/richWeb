@@ -4,7 +4,8 @@ import DeleteSweepRoundedIcon from '@mui/icons-material/DeleteSweepRounded';
 import { v4 as uuid } from "uuid";
 
 
-function Note({ id, text, date, subNotes, deleteNote, updateNote, handleAddSubNote }) {
+function Note({ id, text, date, subNotes, deleteNote, updateNote, notecolour,selectedcolour, colours, oncolourChange }) {
+  
   const formatDate = (dateString) => {
     const options = { year: "numeric", month: "long", day: "numeric" };
     return new Date(dateString).toLocaleDateString(undefined, options);
@@ -40,8 +41,12 @@ function Note({ id, text, date, subNotes, deleteNote, updateNote, handleAddSubNo
     }
   };
 
+  const colourChangeHandler = (e) => {
+    oncolourChange(id, e.target.value);
+  };
+
   return (
-    <div className="note">
+    <div className="note" style={{ background: notecolour }}>
       <div className="note__date">{formatDate(date)}</div>
       <div className="note__body">{text}</div>
 
@@ -76,6 +81,18 @@ function Note({ id, text, date, subNotes, deleteNote, updateNote, handleAddSubNo
         <DeleteSweepRoundedIcon className="note__delete" onClick={() => deleteNote(id)} aria-hidden="true" />
         
       </div>
+
+      <div className="colour-picker">
+        <label>Select Note colour:</label>
+        <select value={selectedcolour} onChange={colourChangeHandler}>
+          {colours.map((colour) => (
+            <option key={colour} value={colour}>
+              {colour}
+            </option>
+          ))}
+        </select>
+      </div>
+
     </div>
   );
 }
